@@ -47,6 +47,11 @@
       :ref "<handle>"
       :group :optional-metadata}
 
+     :mastodon-url
+     {:desc "Link to author's mastodon profile"
+      :ref "<mastodon-handle>"
+      :group :optional-metada}
+
      ;; Post config
      :default-metadata
      {:desc "Default metadata to add to posts"
@@ -259,7 +264,7 @@
 
 (defn- gen-tags [{:keys [blog-title blog-description
                          blog-image blog-image-alt twitter-handle
-                         modified-tags posts out-dir tags-dir]
+                         mastodon-url modified-tags posts out-dir tags-dir]
                   :as opts}]
   (let [tags-out-dir (fs/create-dirs (fs/file out-dir tags-dir))
         posts-by-tag (lib/posts-by-tag posts)
@@ -276,6 +281,7 @@
                                                        blog-description)
                                   :author twitter-handle
                                   :twitter-handle twitter-handle
+                                  :mastodon-url mastodon-url
                                   :image (lib/blog-link opts blog-image)
                                   :image-alt blog-image-alt
                                   :url (lib/blog-link opts "tags/index.html")}})
@@ -301,7 +307,7 @@
 
 (defn- spit-index
   [{:keys [blog-title blog-description blog-image blog-image-alt twitter-handle
-           posts cached-posts deleted-posts modified-posts num-index-posts
+           mastodon-url posts cached-posts deleted-posts modified-posts num-index-posts
            out-dir]
     :as opts}]
   (let [index-posts #(->> (vals %)
@@ -324,6 +330,7 @@
                           :sharing {:description blog-description
                                     :author twitter-handle
                                     :twitter-handle twitter-handle
+                                    :mastodon-url mastodon-url
                                     :image (lib/blog-link opts blog-image)
                                     :image-alt blog-image-alt
                                     :url (lib/blog-link opts "index.html")}})))))
@@ -332,8 +339,7 @@
 
 (defn- spit-archive [{:keys [blog-title blog-description
                              blog-image blog-image-alt twitter-handle
-                             modified-metadata posts out-dir]
-                      :as opts}]
+                             mastodon-url modified-metadata posts out-dir] :as opts}]
   (let [out-file (fs/file out-dir "archive.html")
         stale? (or (some not-empty (vals modified-metadata))
                    (not (fs/exists? out-file)))]
@@ -349,6 +355,7 @@
                                                          blog-description)
                                     :author twitter-handle
                                     :twitter-handle twitter-handle
+                                    :mastodon-url mastodon-url
                                     :image (lib/blog-link opts blog-image)
                                     :image-alt blog-image-alt
                                     :url (lib/blog-link opts "archive.html")}})))))

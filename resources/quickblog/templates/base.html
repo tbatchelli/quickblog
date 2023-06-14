@@ -53,6 +53,11 @@
 	  <a class="page-link" href="{{relative-path | safe}}atom.xml">
             Feed
           </a>
+	  {% if mastodon-url %}
+	  <a class='page-link' rel="me" href="{{mastodon-url}}">
+	    Mastodon
+	  </a>
+	  {% endif %}
 	  {% if twitter-handle %}
 	  <a class="page-link" href="https://twitter.com/{{twitter-handle}}">
             Twitter
