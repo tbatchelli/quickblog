@@ -1,0 +1,3 @@
+* site is hosted in 1and1 (tbatchelli.org account)
+* currently running off of my own fork that adds mastodon verification
+* syncronization is done as a bb task
