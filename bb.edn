@@ -1,4 +1,4 @@
-{:deps {io.github.borkdude/quickblog {:local/root "."}}
+{:deps {io.github.tbatchelli/quickblog {:local/root "."}}
  :paths ["."]
 
  :bbin/bin {quickblog {:ns-default quickblog.api}}
@@ -7,10 +7,11 @@
  {:requires ([babashka.fs :as fs]
              [quickblog.cli :as cli])
   :init (do
-          (def opts {:blog-title "REPL adventures"
-                     :blog-description "A blog about blogging quickly"
-                     :about-link "https://github.com/borkdude/quickblog"
-                     :twitter-handle "quickblog"})
+          (def opts {:blog-title "tbatchelli.org"
+                     :blog-description "public notes to myself"
+                     :about-link "https://github.com/tbatchelli"
+                     :twitter-handle "tbatchelli"
+                     :mastodon-url "https://hachyderm.io/@tbatchelli"}) ;;<a rel="me" href="https://hachyderm.io/@tbatchelli">Mastodon</a>
           (defn- run-command [cmd-name opts]
             (apply cli/dispatch opts cmd-name *command-line-args*)))
 
@@ -38,7 +39,7 @@
 
   publish {:doc "Publish blog"
            :depends [render]
-           :task (shell "rsync -a --delete public/ user@yourdomain:~/blog")}
+           :task (shell "rsync -a --delete public/ tbatchelli.org:~/tbatchelli.org")}
 
   test {:doc "Run tests"
         :task (apply clojure "-M:test" *command-line-args*)}
